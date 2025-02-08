@@ -30,7 +30,10 @@ django_apps = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-third_party_apps = []
+third_party_apps = [
+    'rest_framework',
+    'rest_framework_api_key',
+]
 local_apps = [
     'apps.dishes',
     'apps.orders',

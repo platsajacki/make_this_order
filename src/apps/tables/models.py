@@ -6,8 +6,9 @@ from core.models import TimestampedModel
 class Table(TimestampedModel):
     """Модель, представляющая стол в ресторане."""
 
-    number = models.PositiveIntegerField(
+    number = models.PositiveBigIntegerField(
         verbose_name='Номер стола',
+        unique=True,
     )
     seats = models.PositiveIntegerField(
         verbose_name='Количество мест',

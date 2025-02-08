@@ -5,6 +5,8 @@ from .models import Dish
 
 @admin.register(Dish)
 class DishAdmin(admin.ModelAdmin):
+    """Админская модель для Dish."""
+
     list_display = ('id', 'name', 'price')
     list_filter = ('price',)
     search_fields = ('name',)

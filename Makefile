@@ -17,6 +17,9 @@ tag:
 	@read -p "Enter tag name: " tag_name; \
 	git tag -a "$$tag_name" -m "$$tag_name" && git push origin "$$tag_name"
 
+create-su:
+	python src/manage.py createsuperuser
+
 runserver:
 	python src/manage.py runserver
 

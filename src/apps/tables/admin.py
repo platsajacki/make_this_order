@@ -5,6 +5,8 @@ from .models import Table
 
 @admin.register(Table)
 class TableAdmin(admin.ModelAdmin):
+    """Админская модель для Table."""
+
     list_display = (
         'number',
         'seats',
