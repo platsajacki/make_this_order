@@ -174,5 +174,33 @@ if not DEBUG:
             },
         },
     }
-
-main_loger = getLogger('')
+else:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'filters': {
+            'require_debug_true': {
+                '()': 'django.utils.log.RequireDebugTrue',
+            }
+        },
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'filters': ['require_debug_true'],
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose',
+            }
+        },
+        'loggers': {
+            'django.db.backends': {
+                'level': 'DEBUG',
+                'handlers': ['console'],
+            }
+        },
+        'formatters': {
+            'verbose': {
+                'format': '{levelname} {asctime} {message}\n',
+                'style': '{',
+            },
+        },
+    }
