@@ -52,11 +52,6 @@ class Order(TimestampedModel):
         self.total_price = sum([item.total_price for item in self.order_items.all()])
         self.save()
 
-    def save(self, *args: Any, **kwargs: Any) -> None:
-        """Переопределяем save для пересчета общей стоимости перед сохранением."""
-        self.update_total_price()
-        super().save(*args, **kwargs)
-
 
 class OrderItem(TimestampedModel):
     """Модель для связи блюда и заказа с количеством и ценой."""

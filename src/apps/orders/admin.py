@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib import admin
 from django.forms import Form
 from django.http.request import HttpRequest
@@ -10,7 +12,7 @@ class OrderItemInline(admin.TabularInline):
 
     model = OrderItem
     extra = 1
-    fields = ('dish', 'quantity', 'total_price')
+    fields = ('dish', 'quantity')
 
 
 @admin.register(Order)
@@ -40,11 +42,6 @@ class OrderAdmin(admin.ModelAdmin):
     )
     inlines = [OrderItemInline]
 
-    def save_model(self, request: HttpRequest, obj: Order, form: Form, change: bool) -> None:
-        """Обновляем общюю стоимость перед сохранением."""
-        obj.update_total_price()
-        super().save_model(request, obj, form, change)
-
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
@@ -54,9 +51,28 @@ class OrderItemAdmin(admin.ModelAdmin):
         'order',
         'dish',
         'quantity',
-        'total_price',
+        'get_total_price',
     )
     search_fields = (
         'order__id',
         'dish__name',
     )
+    fields = (
+        'id',
+        'order',
+        'dish',
+        'quantity',
+        'get_total_price',
+    )
+    readonly_fields = (
+        'id',
+        'get_total_price',
+        'created',
+        'updated',
+    )
+
+    def get_total_price(self, obj: OrderItem) -> Decimal:
+        """Возвращает общую стоимость блюда в заказе."""
+        return obj.total_price
+
+    get_total_price.short_description = 'Общая стоимость'  # type: ignore[attr-defined]
