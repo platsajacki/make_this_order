@@ -21,7 +21,7 @@ class OrderFilterSet(FilterSet):
         lookup_expr='iexact',
     )
     table_number = NumberFilter(
-        field_name='table_number__number',
+        field_name='table__number',
     )
 
     class Meta:

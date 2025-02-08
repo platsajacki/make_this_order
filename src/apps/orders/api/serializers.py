@@ -55,8 +55,8 @@ class OrderReadSerializer(serializers.ModelSerializer):
     """Сериализатор для чтения заказа."""
 
     items = OrderItemReadSerializer(many=True, source='order_items')
-    table_number = TableSerializer()
+    table = TableSerializer()
 
     class Meta:
         model = Order
-        fields = ['table_number', 'items', 'status']
+        fields = ['id', 'table', 'items', 'status', 'total_price',]

@@ -14,7 +14,7 @@ class OrderStatus(models.TextChoices):
 class Order(TimestampedModel):
     """Модель, представляющая заказ в ресторане."""
 
-    table_number = models.ForeignKey(
+    table = models.ForeignKey(
         Table,
         on_delete=models.CASCADE,
         verbose_name='Стол',
@@ -43,7 +43,7 @@ class Order(TimestampedModel):
         ordering = ['-created']
 
     def __str__(self) -> str:
-        return f'Заказ №{self.id} для стола {self.table_number.number}'
+        return f'Заказ №{self.id} для стола {self.table.number}'
 
     def update_total_price(self) -> None:
         """Метод для вычисления общей стоимости заказа."""

@@ -19,7 +19,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     list_display = (
         'id',
-        'table_number',
+        'table',
         'status',
         'total_price',
         'created',
@@ -31,7 +31,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
     search_fields = (
         'id',
-        'table_number__number',
+        'table__number',
     )
     readonly_fields = (
         'total_price',
