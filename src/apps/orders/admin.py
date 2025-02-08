@@ -1,8 +1,6 @@
 from decimal import Decimal
 
 from django.contrib import admin
-from django.forms import Form
-from django.http.request import HttpRequest
 
 from apps.orders.models import Order, OrderItem
 
