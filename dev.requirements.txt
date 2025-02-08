@@ -1,0 +1,13 @@
+black==24.10.0
+django-stubs==5.1.2
+flake8==7.1.1
+Flake8-pyproject==1.2.3
+isort==5.13.2
+mimesis==18.0.0
+mypy==1.14.1
+pytest==8.3.4
+pytest-blockage==0.2.4
+pytest-cov==6.0.0
+pytest-django==4.9.0
+pytest-mock==3.14.0
+types-requests==2.32.0.20241016
