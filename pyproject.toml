@@ -28,7 +28,7 @@ E701 = 'multiple statements on one line (colon)'
 profile = 'black'
 line_length = 120
 known_pytest = ['pytest', 'pytest_mock']
-known_django = ['django']
+known_django = ['django', 'rest_framework', 'rest_framework_api_key']
 sections = [
     'FUTURE',
     'PYTEST',

@@ -31,6 +31,7 @@ django_apps = [
     'django.contrib.staticfiles',
 ]
 third_party_apps = [
+    'django_filters',
     'rest_framework',
     'rest_framework_api_key',
 ]

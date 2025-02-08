@@ -1,7 +1,5 @@
-from django.views.generic import ListView
-
-from apps.orders.models import Order
+from django.views.generic import TemplateView
 
 
-class OrderListView(ListView):
-    model = Order
+class OrderTemplateView(TemplateView):
+    template_name = 'orders/order_list.html'
