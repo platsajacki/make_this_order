@@ -152,7 +152,6 @@ async function getOrders() {
             <td>${order.table.number}</td>
             <td>${order.items.map(item => item.dish.name).join(', ')}</td>
             <td>${order.total_price}</td>
-            <td>${order.status}</td>
             <td><button onclick="deleteOrder(${order.id})">Удалить</button></td>
             <td>
                 <select onchange="updateOrderStatus(${order.id}, this)">
