@@ -30,7 +30,7 @@ migrate:
 	python src/manage.py migrate
 
 test:
-	pytest --cov=src src/tests --blockage
+	pytest --cov=src src/_tests --blockage
 
 static:
 	python src/manage.py collectstatic --noinput
