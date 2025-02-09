@@ -1,4 +1,3 @@
-from logging import getLogger
 from os import getenv, makedirs, path
 from pathlib import Path
 

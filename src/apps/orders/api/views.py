@@ -7,6 +7,7 @@ from rest_framework_api_key.permissions import HasAPIKey
 from apps.orders.api.serializers import OrderReadSerializer, OrderWriteSerializer
 from apps.orders.filters import OrderFilterSet
 from apps.orders.models import Order
+from apps.orders.services.order_creator import OrderCreator
 
 
 class OrderViewSet(ModelViewSet):
@@ -37,8 +38,8 @@ class OrderViewSet(ModelViewSet):
             return OrderReadSerializer(*args, **kwargs)
         return OrderWriteSerializer(*args, **kwargs)
 
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
+    def perform_create(self, serializer: OrderWriteSerializer) -> Order:
+        return OrderCreator(serializer)()
 
-    def perform_update(self, serializer):
+    def perform_update(self, serializer: OrderWriteSerializer) -> Order:
         return super().perform_update(serializer)

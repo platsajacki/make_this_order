@@ -34,6 +34,34 @@ class OrderItemReadSerializer(serializers.ModelSerializer):
         fields = ['id', 'dish', 'quantity', 'total_price']
 
 
+class OrderReadSerializer(serializers.ModelSerializer):
+    """Сериализатор для чтения данных о заказе."""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """
+        Инициализация сериализатора. В зависимости от флага is_reading выбирается
+        соответствующий сериализатор для поля 'items'.
+        """
+        is_reading = kwargs.pop('is_reading', True)
+        super().__init__(*args, **kwargs)
+        if is_reading:
+            self.fields['items'] = OrderItemReadSerializer(many=True, source='order_items')
+        else:
+            self.fields['items'] = OrderItemWriteSerializer(many=True)
+
+    table = TableSerializer()
+
+    class Meta:
+        model = Order
+        fields = [
+            'id',
+            'table',
+            'items',
+            'status',
+            'total_price',
+        ]
+
+
 class OrderWriteSerializer(serializers.ModelSerializer):
     """Сериализатор для создания заказа."""
 
@@ -50,19 +78,13 @@ class OrderWriteSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['table', 'items', 'status']
 
+    def to_representation(self, instance: Order) -> dict:
+        """
+        Сериализация объекта заказа в формат для ответа. Используется сериализатор
+        для чтения (OrderReadSerializer) с флагом is_reading=False для использования
+        сериализатора для записи.
 
-class OrderReadSerializer(serializers.ModelSerializer):
-    """Сериализатор для чтения заказа."""
-
-    items = OrderItemReadSerializer(many=True, source='order_items')
-    table = TableSerializer()
-
-    class Meta:
-        model = Order
-        fields = [
-            'id',
-            'table',
-            'items',
-            'status',
-            'total_price',
-        ]
+        :param instance: Экземпляр объекта заказа, который нужно сериализовать.
+        :return: Данные заказа в формате, соответствующем сериализатору для чтения.
+        """
+        return OrderReadSerializer(instance=instance, is_reading=False).data
