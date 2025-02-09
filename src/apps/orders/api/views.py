@@ -1,6 +1,9 @@
 from typing import Any
 
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_api_key.permissions import HasAPIKey
 
@@ -14,6 +17,7 @@ from apps.orders.filters import OrderFilterSet
 from apps.orders.models import Order
 from apps.orders.services.order_creator import OrderCreator
 from apps.orders.services.order_updater import OrderUpdater
+from apps.orders.services.total_revenue_getter import ShiftRevenueGetter
 
 OrderSerializers = OrderReadSerializer | OrderWriteSerializer | OrderPostSerializer | OrderPatchSerializer
 
@@ -56,3 +60,10 @@ class OrderViewSet(ModelViewSet):
 
     def perform_update(self, serializer: OrderWriteSerializer) -> Order:
         return OrderUpdater(serializer)()
+
+
+class ShiftRevenueAPIView(APIView):
+    """Представление для получения общей выручки."""
+
+    def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        return ShiftRevenueGetter()()

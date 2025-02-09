@@ -21,10 +21,10 @@ class OrderFilterSet(FilterSet):
         field_name='status',
         lookup_expr='iexact',
     )
-    table_number = NumberFilter(
+    table = NumberFilter(
         field_name='table__number',
     )
 
     class Meta:
         model = Order
-        fields = ['id', 'status', 'table_number']
+        fields = ['id', 'status', 'table']

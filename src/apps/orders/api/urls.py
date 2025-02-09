@@ -1,11 +1,12 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from apps.orders.api.views import OrderViewSet
+from apps.orders.api.views import OrderViewSet, ShiftRevenueAPIView
 
 router = DefaultRouter()
 router.register(r'orders', OrderViewSet, basename='order')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('total-revenue/', ShiftRevenueAPIView.as_view(), name='total_revenue'),
 ]

@@ -121,3 +121,7 @@ class OrderPatchSerializer(OrderWriteSerializer):
     def to_representation(self, instance: Order) -> dict:
         """Преобразует экземпляр заказа в формат данных для ответа."""
         return OrderReadSerializer(instance=instance).data
+
+
+class ShiftRevenueSerializer(serializers.Serializer):
+    total_revenue = serializers.DecimalField(max_digits=10, decimal_places=2)
