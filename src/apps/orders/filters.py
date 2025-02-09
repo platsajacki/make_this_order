@@ -8,6 +8,7 @@ class OrderFilterSet(FilterSet):
     Фильтр для модели 'Order' (заказ), который позволяет фильтровать заказы по статусу и номеру стола.
 
     Этот фильтр позволяет API фильтровать заказы по следующим полям:
+    - 'id' - ID заказа.
     - 'status' — статус заказа (например, "pending", "ready", "completed"). Сравнение без учета регистра.
     - 'table_number' — номер стола, к которому привязан заказ. Для этого используется поле 'number' модели 'Table'.
 
@@ -26,4 +27,4 @@ class OrderFilterSet(FilterSet):
 
     class Meta:
         model = Order
-        fields = ['status', 'table_number']
+        fields = ['id', 'status', 'table_number']

@@ -4,10 +4,18 @@ from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_api_key.permissions import HasAPIKey
 
-from apps.orders.api.serializers import OrderReadSerializer, OrderWriteSerializer
+from apps.orders.api.serializers import (
+    OrderPatchSerializer,
+    OrderPostSerializer,
+    OrderReadSerializer,
+    OrderWriteSerializer,
+)
 from apps.orders.filters import OrderFilterSet
 from apps.orders.models import Order
 from apps.orders.services.order_creator import OrderCreator
+from apps.orders.services.order_updater import OrderUpdater
+
+OrderSerializers = OrderReadSerializer | OrderWriteSerializer | OrderPostSerializer | OrderPatchSerializer
 
 
 class OrderViewSet(ModelViewSet):
@@ -33,13 +41,18 @@ class OrderViewSet(ModelViewSet):
     filterset_class = OrderFilterSet
     http_method_names = ['get', 'post', 'patch', 'delete']
 
-    def get_serializer(self, *args: Any, **kwargs: Any) -> OrderReadSerializer | OrderWriteSerializer:
-        if self.request.method in SAFE_METHODS:
-            return OrderReadSerializer(*args, **kwargs)
-        return OrderWriteSerializer(*args, **kwargs)
+    def get_serializer_class(self) -> OrderSerializers:
+        method = self.request.method
+        if method in SAFE_METHODS:
+            return OrderReadSerializer
+        if method == 'PATCH':
+            return OrderPatchSerializer
+        if method == 'POST':
+            return OrderPostSerializer
+        return OrderWriteSerializer
 
     def perform_create(self, serializer: OrderWriteSerializer) -> Order:
         return OrderCreator(serializer)()
 
     def perform_update(self, serializer: OrderWriteSerializer) -> Order:
-        return super().perform_update(serializer)
+        return OrderUpdater(serializer)()

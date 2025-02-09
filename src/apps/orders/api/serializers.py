@@ -35,19 +35,31 @@ class OrderItemReadSerializer(serializers.ModelSerializer):
 
 
 class OrderReadSerializer(serializers.ModelSerializer):
-    """Сериализатор для чтения данных о заказе."""
+    """Сериализатор для чтения данных о заказе.
+
+    Этот сериализатор используется для извлечения данных о заказах. В зависимости от переданных параметров,
+    он может изменять способ представления связанных объектов заказа.
+    Если параметр 'source' установлен в True, то используется другой источник 'order_items' для поля 'items'.
+    Если параметр 'source' равен False, используются данные напрямую, без дополнительных связей
+
+    Параметры kwargs:
+        - source (bool): Флаг, указывающий, использовать ли связанный источник для поля 'items'.
+    """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
-        Инициализация сериализатора. В зависимости от флага is_reading выбирается
+        Инициализация сериализатора. В зависимости от флага 'source' выбирается
         соответствующий сериализатор для поля 'items'.
+
+        :param args: Позиционные аргументы для инициализации родительского класса.
+        :param kwargs: Ключевые аргументы, включая флаг 'source', определяющий использование данных для поля 'items'.
         """
-        is_reading = kwargs.pop('is_reading', True)
+        source = kwargs.pop('source', True)
         super().__init__(*args, **kwargs)
-        if is_reading:
+        if source:
             self.fields['items'] = OrderItemReadSerializer(many=True, source='order_items')
         else:
-            self.fields['items'] = OrderItemWriteSerializer(many=True)
+            self.fields['items'] = OrderItemReadSerializer(many=True)
 
     table = TableSerializer()
 
@@ -68,6 +80,10 @@ class OrderWriteSerializer(serializers.ModelSerializer):
     items = OrderItemWriteSerializer(many=True)
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Инициализация сериализатора.
+
+        В конструкторе устанавливается поле 'table', которое является выбором столика по его номеру.
+        """
         super().__init__(*args, **kwargs)
         self.fields['table'] = serializers.SlugRelatedField(
             queryset=Table.objects.all(),
@@ -78,13 +94,30 @@ class OrderWriteSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['table', 'items', 'status']
 
-    def to_representation(self, instance: Order) -> dict:
-        """
-        Сериализация объекта заказа в формат для ответа. Используется сериализатор
-        для чтения (OrderReadSerializer) с флагом is_reading=False для использования
-        сериализатора для записи.
 
-        :param instance: Экземпляр объекта заказа, который нужно сериализовать.
-        :return: Данные заказа в формате, соответствующем сериализатору для чтения.
-        """
-        return OrderReadSerializer(instance=instance, is_reading=False).data
+class OrderPostSerializer(OrderWriteSerializer):
+    """Сериализатор для создания нового заказа через POST запрос.
+
+    Этот сериализатор расширяет `OrderWriteSerializer` и используется
+    для обработки POST-запросов на создание заказа. Он преобразует объект
+    заказа в формат данных для ответа с использованием `OrderReadSerializer`
+    с флагом source=False.
+    """
+
+    def to_representation(self, instance: Order) -> dict:
+        """Преобразует экземпляр заказа в формат данных для ответа."""
+        return OrderReadSerializer(instance=instance, source=False).data
+
+
+class OrderPatchSerializer(OrderWriteSerializer):
+    """Сериализатор для частичного обновления заказа через PATCH запрос.
+
+    Этот сериализатор расширяет `OrderWriteSerializer` и используется
+    для обработки PATCH-запросов на частичное обновление заказа. Он
+    преобразует объект заказа в формат данных для ответа с использованием
+    `OrderReadSerializer` без изменения флага.
+    """
+
+    def to_representation(self, instance: Order) -> dict:
+        """Преобразует экземпляр заказа в формат данных для ответа."""
+        return OrderReadSerializer(instance=instance).data

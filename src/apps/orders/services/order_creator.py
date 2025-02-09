@@ -31,16 +31,10 @@ class OrderCreator(BaseService):
         :return: Созданный объект заказа.
         """
         with atomic():
-            # Создание объекта заказа
             order = Order.objects.create(table=data['table'])
-
-            # Создание позиций заказа и их сохранение
             order_items = [OrderItem(order=order, **item_data) for item_data in data['items']]
             OrderItem.objects.bulk_create(order_items)
-
-            # Обновление общей цены заказа
             order.update_total_price()
-
         return order
 
     def act(self) -> Order:
