@@ -108,6 +108,11 @@ class OrderPostSerializer(OrderWriteSerializer):
         """Преобразует экземпляр заказа в формат данных для ответа."""
         return OrderReadSerializer(instance=instance, source=False).data
 
+    def validate_items(self, value: list) -> list:
+        if not value:
+            raise serializers.ValidationError('Поле `items` не может быть пустым.')
+        return value
+
 
 class OrderPatchSerializer(OrderWriteSerializer):
     """Сериализатор для частичного обновления заказа через PATCH запрос.

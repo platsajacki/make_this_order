@@ -118,8 +118,10 @@ document.getElementById('create-order-form').addEventListener('submit', async fu
 
     if (response.ok) {
         alert('Заказ создан успешно')
-        document.getElementById('create-order-form').reset()
-        getOrders()
+        location.reload()
+    } else if (response.status === 400) {
+        const errorData = await response.json()
+        alert(JSON.stringify(errorData, null, 2))
     } else {
         alert('Ошибка при создании заказа')
     }
