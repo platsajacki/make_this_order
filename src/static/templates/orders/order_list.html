@@ -3,7 +3,7 @@
 
 {% block content %}
     <script>const csrfToken = '{{ csrf_token }}'</script>
-    <script src="{% static 'js/main.js' %}"></script>
+    <script defer type="module" src="/static/js/main.js"></script>
     <h1>Заказы</h1>
 
     <!-- Выручка за смену -->
@@ -39,7 +39,7 @@
             <h2>Поиск заказов</h2>
             <form id="search-form">
                 <label for="order_id">ID заказа</label>
-                <input type="text" name="order_id" id="order_id">
+                <input type="number" name="order_id" id="order_id">
                 <label for="table">Номер стола</label>
                 <input type="number" name="table" id="table">
                 <label for="status">Статус</label>

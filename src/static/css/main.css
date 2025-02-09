@@ -145,6 +145,17 @@ button[type="button"]:hover {
     background-color: #d32f2f;
 }
 
+.login {
+    width: 300px;
+    height: max-content;
+    min-height: 0;
+    font: 1.2em sans-serif;
+}
+
+.login input {
+    width: 245px;
+}
+
 /* Для малых экранов (мобильных) */
 @media (max-width: 768px) {
     form {

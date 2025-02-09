@@ -31,6 +31,7 @@ django_apps = [
 ]
 third_party_apps = [
     'django_filters',
+    'drf_yasg',
     'rest_framework',
     'rest_framework_api_key',
 ]
@@ -85,6 +86,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_REDIRECT_URL = 'orders:list'
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
