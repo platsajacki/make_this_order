@@ -11,43 +11,48 @@
         <h2>Выручка за смену: <span id="revenue-amount">Загружается...</span></h2>
     </div>
 
-    <!-- Форма для создания нового заказа -->
-    <h2>Создать новый заказ</h2>
-    <form id="create-order-form">
-        <label for="table_create">Номер стола</label>
-        <select name="table" id="table_create"></select>
+    <div class="order-forms">
+        <div>
+            <!-- Форма для создания нового заказа -->
+            <h2>Создать новый заказ</h2>
+            <form id="create-order-form">
+                <label for="table_create">Номер стола</label>
+                <select name="table" id="table_create"></select>
 
-        <h3>Блюда</h3>
-        <div id="order-items">
-            <div class="order-item">
-                <label>Название блюда</label>
-                <select name="dish_name[]" class="dish-select" required></select>
-                <label>Количество</label>
-                <input type="number" name="quantity[]" required min="1">
-                <button type="button" onclick="removeItem(this)">Удалить</button>
-            </div>
+                <h3>Блюда</h3>
+                <div id="order-items">
+                    <div class="order-item">
+                        <label>Название блюда</label>
+                        <select name="dish_name[]" class="dish-select" required></select>
+                        <label>Количество</label>
+                        <input type="number" name="quantity[]" required min="1">
+                        <button type="button" onclick="removeItem(this)">Удалить</button>
+                    </div>
+                </div>
+
+                <button type="button" id="add-item">Добавить блюдо</button>
+                <button type="submit">Создать заказ</button>
+            </form>
         </div>
-
-        <button type="button" id="add-item">Добавить блюдо</button>
-        <button type="submit">Создать заказ</button>
-    </form>
-
-    <!-- Форма для поиска заказов -->
-    <h2>Поиск заказов</h2>
-    <form id="search-form">
-        <label for="order_id">ID заказа</label>
-        <input type="text" name="order_id" id="order_id">
-        <label for="table">Номер стола</label>
-        <input type="number" name="table" id="table">
-        <label for="status">Статус</label>
-        <select name="status" id="status">
-            <option value="">--Выберите статус--</option>
-            <option value="pending">В ожидании</option>
-            <option value="ready">Готово</option>
-            <option value="paid">Оплачено</option>
-        </select>
-        <button type="submit">Поиск</button>
-    </form>
+        <div>
+            <!-- Форма для поиска заказов -->
+            <h2>Поиск заказов</h2>
+            <form id="search-form">
+                <label for="order_id">ID заказа</label>
+                <input type="text" name="order_id" id="order_id">
+                <label for="table">Номер стола</label>
+                <input type="number" name="table" id="table">
+                <label for="status">Статус</label>
+                <select name="status" id="status">
+                    <option value="">--Выберите статус--</option>
+                    <option value="pending">В ожидании</option>
+                    <option value="ready">Готово</option>
+                    <option value="paid">Оплачено</option>
+                </select>
+                <button type="submit">Поиск</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Список заказов -->
     <h2>Список заказов</h2>
