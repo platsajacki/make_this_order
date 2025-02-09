@@ -16,7 +16,7 @@ class OrderItemWriteSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
         self.fields['dish'] = serializers.SlugRelatedField(
             queryset=Dish.objects.all(),
-            slug_field='name',
+            slug_field='id',
         )
 
     class Meta:
@@ -37,18 +37,18 @@ class OrderItemReadSerializer(serializers.ModelSerializer):
 class OrderWriteSerializer(serializers.ModelSerializer):
     """Сериализатор для создания заказа."""
 
-    items = OrderItemReadSerializer(many=True)
+    items = OrderItemWriteSerializer(many=True)
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
-        self.fields['table_number'] = serializers.SlugRelatedField(
+        self.fields['table'] = serializers.SlugRelatedField(
             queryset=Table.objects.all(),
             slug_field='number',
         )
 
     class Meta:
         model = Order
-        fields = ['table_number', 'items', 'status']
+        fields = ['table', 'items', 'status']
 
 
 class OrderReadSerializer(serializers.ModelSerializer):

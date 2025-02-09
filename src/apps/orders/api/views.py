@@ -1,8 +1,10 @@
-from rest_framework.permissions import IsAuthenticated
+from typing import Any
+
+from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_api_key.permissions import HasAPIKey
 
-from apps.orders.api.serializers import OrderReadSerializer
+from apps.orders.api.serializers import OrderReadSerializer, OrderWriteSerializer
 from apps.orders.filters import OrderFilterSet
 from apps.orders.models import Order
 
@@ -28,3 +30,15 @@ class OrderViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated | HasAPIKey]
     queryset = Order.objects.select_related('table').prefetch_related('order_items__dish')
     filterset_class = OrderFilterSet
+    http_method_names = ['get', 'post', 'patch', 'delete']
+
+    def get_serializer(self, *args: Any, **kwargs: Any) -> OrderReadSerializer | OrderWriteSerializer:
+        if self.request.method in SAFE_METHODS:
+            return OrderReadSerializer(*args, **kwargs)
+        return OrderWriteSerializer(*args, **kwargs)
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+    def perform_update(self, serializer):
+        return super().perform_update(serializer)
