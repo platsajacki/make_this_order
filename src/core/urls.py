@@ -2,7 +2,9 @@ from django.contrib import admin
 from django.urls import include, path
 
 api_v1 = [
+    path('', include('apps.dishes.api.urls')),
     path('', include('apps.orders.api.urls')),
+    path('', include('apps.tables.api.urls')),
 ]
 
 urlpatterns = [
