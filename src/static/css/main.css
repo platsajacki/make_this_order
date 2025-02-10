@@ -112,6 +112,10 @@ button[type="button"]:hover {
     background-color: #f9f9f9;
 }
 
+#order-table button {
+    background-color: #d32f2f;
+}
+
 /* Стиль для блока с заказами */
 #order-items {
     margin-bottom: 20px;
