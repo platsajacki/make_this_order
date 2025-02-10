@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from django.db.transaction import atomic
 
-from apps.orders.api.serializers import OrderWriteSerializer
+from apps.orders.api.serializers import OrderPatchSerializer
 from apps.orders.data_types import OrderValidatedData
 from apps.orders.models import Order, OrderItem
 from core.services import BaseService
@@ -18,10 +18,10 @@ class OrderUpdater(BaseService):
     выполняет обновление самого заказа и его позиций в базе данных.
 
     Атрибуты:
-        serializer (OrderWriteSerializer): Сериализатор для обновления заказа.
+        serializer (OrderPatchSerializer): Сериализатор для обновления заказа.
     """
 
-    serializer: OrderWriteSerializer
+    serializer: OrderPatchSerializer
 
     def update(self, data: OrderValidatedData, order: Order) -> Order:
         """

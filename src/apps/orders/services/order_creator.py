@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from django.db.transaction import atomic
 
-from apps.orders.api.serializers import OrderWriteSerializer
+from apps.orders.api.serializers import OrderPostSerializer
 from apps.orders.data_types import OrderValidatedData
 from apps.orders.models import Order, OrderItem
 from core.services import BaseService
@@ -18,10 +18,10 @@ class OrderCreator(BaseService):
     выполняет создание самого заказа и его позиций в базе данных.
 
     Атрибуты:
-        serializer (OrderWriteSerializer): Сериализатор для создания заказа.
+        serializer (OrderPostSerializer): Сериализатор для создания заказа.
     """
 
-    serializer: OrderWriteSerializer
+    serializer: OrderPostSerializer
 
     def create(self, data: OrderValidatedData) -> Order:
         """
