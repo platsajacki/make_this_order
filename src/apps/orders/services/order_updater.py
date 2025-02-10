@@ -31,7 +31,7 @@ class OrderUpdater(BaseService):
         :return: Обновленный объект заказа.
         """
         with atomic():
-            if items_data := data.pop('items', False):
+            if items_data := data.pop('items', None):
                 order.order_items.all().delete()
                 order_items = [OrderItem(order=order, **item_data) for item_data in items_data]
                 OrderItem.objects.bulk_create(order_items)

@@ -45,7 +45,7 @@ class OrderViewSet(ModelViewSet):
     filterset_class = OrderFilterSet
     http_method_names = ['get', 'post', 'patch', 'delete']
 
-    def get_serializer_class(self) -> OrderSerializers:
+    def get_serializer_class(self) -> type[OrderSerializers]:
         method = self.request.method
         if method in SAFE_METHODS:
             return OrderReadSerializer
@@ -64,6 +64,8 @@ class OrderViewSet(ModelViewSet):
 
 class ShiftRevenueAPIView(APIView):
     """Представление для получения общей выручки."""
+
+    permission_classes = [IsAuthenticated | HasAPIKey]
 
     def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
         return ShiftRevenueGetter()()

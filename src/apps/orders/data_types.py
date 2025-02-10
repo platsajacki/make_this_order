@@ -10,7 +10,7 @@ class OrderItemData(TypedDict):
     quantity: int
 
 
-class OrderValidatedData(TypedDict):
+class OrderValidatedData(TypedDict, total=False):
     table: Table
     items: list[OrderItemData]
 

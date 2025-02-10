@@ -8,5 +8,5 @@ router.register(r'orders', OrderViewSet, basename='order')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('shift-revenue/', ShiftRevenueAPIView.as_view(), name='shift_revenue'),
+    path('shift-revenue/', ShiftRevenueAPIView.as_view(), name='shift-revenue'),
 ]
