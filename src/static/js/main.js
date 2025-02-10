@@ -99,6 +99,12 @@ document.getElementById('create-order-form').addEventListener('submit', async fu
     const dishNames = Array.from(document.querySelectorAll('select[name="dish_name[]"]')).map(select => select.value)
     const quantities = Array.from(document.querySelectorAll('input[name="quantity[]"]')).map(input => input.value)
 
+    const uniqueDishes = new Set(dishNames);
+    if (uniqueDishes.size !== dishNames.length) {
+        alert('Вы не можете выбрать одинаковые блюда при создании заказа.\nПожалуйста, изменяйте количество.')
+        return
+    }
+
     const orderData = {
         table: tableNumber,
         items: dishNames.map((dishId, index) => ({
@@ -152,7 +158,7 @@ async function getOrders() {
         row.innerHTML = `
             <td>${order.id}</td>
             <td>${order.table.number}</td>
-            <td>${order.items.map(item => item.dish.name).join(', ')}</td>
+            <td>${order.items.map(item => `${item.dish.name} (${item.quantity})`).join(', ')}</td>
             <td>${order.total_price}</td>
             <td><button onclick="deleteOrder(${order.id})">Удалить</button></td>
             <td>

@@ -20,7 +20,7 @@ h3 {
 form {
     display: flex;
     width: 400px;
-    min-height: 400px;
+    min-height: 440px;
     height: max-content;
     margin: 0 auto;
     background-color: #fff;

@@ -68,7 +68,7 @@ class ShiftRevenueGetter(BaseService):
             return Decimal(0)
         total_revenue = (
             Order.objects.filter(status=OrderStatus.PAID)
-            .filter(created__gte=working_time_period.start, created__lte=working_time_period.end)
+            .filter(updated__gte=working_time_period.start, updated__lte=working_time_period.end)
             .aggregate(total_revenue=Sum('total_price'))['total_revenue']
         )
         return total_revenue or Decimal(0)

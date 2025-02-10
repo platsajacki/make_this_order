@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+Заказы
+{% endblock %}
+
 {% block content %}
     <script>const csrfToken = '{{ csrf_token }}'</script>
     <script defer src="{% static 'js/main.js' %}"></script>
