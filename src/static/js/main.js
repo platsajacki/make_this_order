@@ -219,6 +219,7 @@ async function updateOrderStatus(orderId, selectElement) {
     if (response.ok) {
         alert('Статус обновлен')
         getOrders()
+        loadShiftRevenue()
     } else {
         alert('Ошибка при обновлении статуса')
     }
