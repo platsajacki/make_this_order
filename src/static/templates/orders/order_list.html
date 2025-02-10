@@ -3,7 +3,7 @@
 
 {% block content %}
     <script>const csrfToken = '{{ csrf_token }}'</script>
-    <script defer type="module" src="/static/js/main.js"></script>
+    <script defer src="{% static 'js/main.js' %}"></script>
     <h1>Заказы</h1>
 
     <!-- Выручка за смену -->
